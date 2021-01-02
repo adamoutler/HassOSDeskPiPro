@@ -1,0 +1,26 @@
+{
+  "name": "DeskPi Pro Temp Control",
+  "version": "0.1",
+  "slug": "desk_pi_pro_temp",
+  "description": "This adjusts the temp of DeskPi Pro by fan control",
+  "arch": ["armhf", "armv7", "aarch64"],
+  "startup": "application",
+  "full_access": "no",
+  "boot": "auto",
+  "devices": ["/dev/ttyUSB0:/dev/ttyUSB0:rwm"],
+  "privileged": ["SYS_ADMIN"],
+  "options": {
+     "CorF": "F",
+     "LowRange": 90,
+     "MediumRange": 115,
+     "HighRange": 122,
+     "QuietProfile": true
+  },
+  "schema": {
+    "CorF": "str",
+    "LowRange": "int(0,255)",
+    "MediumRange": "int(0,255)",
+    "HighRange": "int(0,255)",
+    "QuietProfile":"bool"
+   }
+}
