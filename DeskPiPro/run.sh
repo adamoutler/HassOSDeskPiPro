@@ -64,8 +64,8 @@ until false; do
        echo "Level 2 - Fan 33% (Low)";
        echo -ne "pwm_033">/dev/ttyUSB0
      else
-       echo "Quiet Level 2 - Fan 5% (Low)";
-       echo -ne "pwm_005">/dev/ttyUSB0
+       echo "Quiet Level 2 - Fan 20% (Low)";
+       echo -ne "pwm_020">/dev/ttyUSB0
      fi
      ;;
     3)
@@ -74,8 +74,8 @@ until false; do
        echo -ne "pwm_066">/dev/ttyUSB0
 
      else
-       echo "Quiet Level 3 - Fan 10% (Medium)";
-       echo -ne "pwm_010">/dev/ttyUSB0
+       echo "Quiet Level 3 - Fan 50% (Medium)";
+       echo -ne "pwm_050">/dev/ttyUSB0
 
      fi
      ;;
