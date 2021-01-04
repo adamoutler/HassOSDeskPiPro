@@ -1,29 +1,16 @@
-This is an addon for DeskPi Pro in Home Assistant.  It's essentially a script that runs in a docker container.  It enables and automates the DeskPi Pro Active Cooling System with your specifications.<br>
-
-# Installation
-Within Home Assistant, click Supervisor-> Add-on Store -> … button (in top left)-> Repositories. Add this repository. 
-
-Click DeskPi Pro Temp Control and install.<br>
-![image](gitResources/addonSelect.png)
-
 # Configuration
-![image](gitResources/Configuration.png)
+![image](https://raw.githubusercontent.com/adamoutler/HassOSDeskPiPro/main/gitResources/Configuration.png)
 ## Celcius or Farenheit
 Choose Celcius or Farenheit.
 * **CorF** - Configures Celcius or Fahrenheit.
 
 ## Temperature Ranges
-![image](gitResources/FanRangeExplaination.png)
+![image](https://raw.githubusercontent.com/adamoutler/HassOSDeskPiPro/main/gitResources/FanRangeExplaination.png)
 
 Set your fan ranges appropriately. 
 * **LowRange** Minimum Temperature to turn on 33%. Temperatures less than this value will turn the fan off.
 * **MediumRange** to be the temperature divider between 33 and 66%.
 * **HighRange** to be the maximum temperature before 100% fan.
-
-# Enable I2C
-In order to enable i2C, you must follow the directions in this link. 
-https://www.home-assistant.io/hassio/enable_i2c/
-
 
 
 # Enable Serial
@@ -52,3 +39,5 @@ Login to the main terminal, then at the ha> prompt, type "login".
 ```
 echo 'dtoverlay=dwc2,dr_mode=host' >> /mnt/boot/config.txt
 ```
+
+If problems are encountered please get all "Karen" in the foums and make sure to display attitude, because developers love that.  Alternatively, you can provide a log and tell us the problem, what you did, the model of your device, and what happened differently than what you expected.
