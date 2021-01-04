@@ -5,7 +5,7 @@ This is an addon for DeskPi Pro in Home Assistant.  It's essentially a script th
 # Installation
 Within Home Assistant, click Supervisor-> Add-on Store -> … button (in top left)-> Repositories. Add this repository. 
 
-Click DeskPi Pro Temp Control and install.<br>
+Click DeskPi Pro Active Cooling and install.<br>
 ![image](gitResources/addonSelect.png)
 
 # Configuration
