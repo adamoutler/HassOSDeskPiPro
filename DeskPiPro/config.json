@@ -8,7 +8,6 @@
   "full_access": "no",
   "boot": "auto",
   "devices": ["/dev/ttyUSB0:/dev/ttyUSB0:rwm"],
-  "privileged": ["SYS_ADMIN"],
   "options": {
      "CorF": "F",
      "LowRange": 90,
