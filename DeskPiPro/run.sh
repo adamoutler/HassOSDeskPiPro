@@ -10,6 +10,11 @@ mkfloat(){
   echo $str;
 }
 
+if [ ! -e "/dev/ttyUSB0" ]; then
+   echo "could not find /dev/ttyUSB0. This addon cannot continue without serial enabled";
+   exit 1;
+fi
+
 ## Float comparison so that we don't need to call non-bash processes
 fcomp() {
     local oldIFS="$IFS" op=$2 x y digitx digity
