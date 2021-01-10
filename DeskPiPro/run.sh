@@ -1,32 +1,32 @@
 #!/usr/bin/with-contenv bashio
 
 
-# #make everything into a float
+##make everything into a float
 mkfloat(){
   str=$1
   if [[ $str != *"."* ]]; then
-     str=$str".0"
+    str=$str".0"
   fi
   echo $str;
 }
 
 if [ ! -e "/dev/ttyUSB0" ]; then
-   echo "could not find /dev/ttyUSB0. This addon cannot continue without serial enabled";
-   exit 1;
+  echo "could not find /dev/ttyUSB0. This addon cannot continue without serial enabled";
+  exit 1;
 fi
 
 ## Float comparison so that we don't need to call non-bash processes
 fcomp() {
-    local oldIFS="$IFS" op=$2 x y digitx digity
-    IFS='.' x=( ${1##+([0]|[-]|[+])}) y=( ${3##+([0]|[-]|[+])}) IFS="$oldIFS"
-    while [[ "${x[1]}${y[1]}" =~ [^0] ]]; do
-        digitx=${x[1]:0:1} digity=${y[1]:0:1}
-        (( x[0] = x[0] * 10 + ${digitx:-0} , y[0] = y[0] * 10 + ${digity:-0} ))
-        x[1]=${x[1]:1} y[1]=${y[1]:1} 
-    done
-    [[ ${1:0:1} == '-' ]] && (( x[0] *= -1 ))
-    [[ ${3:0:1} == '-' ]] && (( y[0] *= -1 ))
-    (( ${x:-0} $op ${y:-0} ))
+  local oldIFS="$IFS" op=$2 x y digitx digity
+  IFS='.' x=( ${1##+([0]|[-]|[+])}) y=( ${3##+([0]|[-]|[+])}) IFS="$oldIFS"
+  while [[ "${x[1]}${y[1]}" =~ [^0] ]]; do
+      digitx=${x[1]:0:1} digity=${y[1]:0:1}
+      (( x[0] = x[0] * 10 + ${digitx:-0} , y[0] = y[0] * 10 + ${digity:-0} ))
+      x[1]=${x[1]:1} y[1]=${y[1]:1} 
+  done
+  [[ ${1:0:1} == '-' ]] && (( x[0] *= -1 ))
+  [[ ${3:0:1} == '-' ]] && (( y[0] *= -1 ))
+  (( ${x:-0} $op ${y:-0} ))
 } 
 
 CorF=$(cat options.json |jq -r '.CorF')
@@ -59,37 +59,35 @@ until false; do
     curPosition=4;
   fi
   if [ $lastPosition != $curPosition ]; then
-   case $curPosition in
+    case $curPosition in
     1)
-       echo "Level 1 - Fan 0% (OFF)";
-       echo -ne "pwm_000">/dev/ttyUSB0
-     ;;
+      echo "Level 1 - Fan 0% (OFF)";
+      echo -ne "pwm_000">/dev/ttyUSB0
+    ;;
     2)
-     if [ $quiet != true ]; then
-       echo "Level 2 - Fan 33% (Low)";
-       echo -ne "pwm_033">/dev/ttyUSB0
-     else
-       echo "Quiet Level 2 - Fan 20% (Low)";
-       echo -ne "pwm_020">/dev/ttyUSB0
-     fi
-     ;;
+      if [ $quiet != true ]; then
+        echo "Level 2 - Fan 33% (Low)";
+        echo -ne "pwm_033">/dev/ttyUSB0
+      else
+        echo "Quiet Level 2 - Fan 20% (Low)";
+        echo -ne "pwm_020">/dev/ttyUSB0
+      fi
+      ;;
     3)
-     if [ $quiet != true ]; then
-       echo "Level 3 - Fan 66% (Medium)";
-       echo -ne "pwm_066">/dev/ttyUSB0
-
-     else
-       echo "Quiet Level 3 - Fan 50% (Medium)";
-       echo -ne "pwm_050">/dev/ttyUSB0
-
-     fi
-     ;;
+      if [ $quiet != true ]; then
+        echo "Level 3 - Fan 66% (Medium)";
+        echo -ne "pwm_066">/dev/ttyUSB0
+      else
+        echo "Quiet Level 3 - Fan 50% (Medium)";
+        echo -ne "pwm_050">/dev/ttyUSB0
+      fi
+      ;;
     *)
-       echo "Level4 - Fan 100% (High)";
-       echo -ne "pwm_100">/dev/ttyUSB0
-     ;;
-   esac
-   lastPosition=$curPosition;
+      echo "Level4 - Fan 100% (High)";
+      echo -ne "pwm_100">/dev/ttyUSB0
+      ;;
+    esac
+    lastPosition=$curPosition;
   fi
   sleep 30;
 done
