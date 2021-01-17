@@ -10,12 +10,11 @@ mkfloat(){
   echo $str;
 }
 
-if [ ! -e "/dev/ttyUSB0" ]; then
-  echo "could not find /dev/ttyUSB0. This addon cannot continue without serial enabled";
-  exit 1;
-fi
+
 
 ## Float comparison so that we don't need to call non-bash processes
+
+
 fcomp() {
   local oldIFS="$IFS" op=$2 x y digitx digity
   IFS='.' x=( ${1##+([0]|[-]|[+])}) y=( ${3##+([0]|[-]|[+])}) IFS="$oldIFS"
@@ -34,11 +33,24 @@ t1=$(mkfloat $(cat options.json |jq -r '.LowRange'))
 t2=$(mkfloat $(cat options.json |jq -r '.MediumRange'))
 t3=$(mkfloat $(cat options.json |jq -r '.HighRange'))
 quiet=$(cat options.json |jq -r '.QuietProfile')
+serialDevice=$(cat options.json |jq -r '.SerialDevice')
 
 lastPosition=0
 curPosition=-1
+cpuTemp=0
 
 
+ingress(){
+  while true; do nc -l -p 8099 -e sh -c echo -e 'HTTP/1.1 200 OK\r\nServer: DeskPiPro\r\nDate:$(date)\r\nContent-Type: text/html; charset=UTF8\r\nCache-Control: no-store, no cache, must-revalidate\r\n\r\n<!DOCTYPE html><html><body><p>Fan Speed:'$lastPosition'\r\n Temp:$cpuTemp</body></html>\r\n\n\n 2>&1'  ; done
+
+}
+if [ ! -e $serialDevice ]; then
+  echo "could not find $serialDevice. This addon cannot continue without a serial device. Here is a list of possible SerialDevice:";
+  echo $(ls /dev/ttyUSB*)
+  exit 1;
+fi
+
+ingress &
 until false; do
   read cpuRawTemp</sys/class/thermal/thermal_zone0/temp #read instead of cat fpr process reduction
   cpuTemp=$(( $cpuRawTemp/1000 )) #built-in bash math
@@ -62,29 +74,29 @@ until false; do
     case $curPosition in
     1)
       echo "Level 1 - Fan 0% (OFF)";
-      echo -ne "pwm_000">/dev/ttyUSB0
+      echo -ne "pwm_000">$serialDevice
     ;;
     2)
       if [ $quiet != true ]; then
         echo "Level 2 - Fan 33% (Low)";
-        echo -ne "pwm_033">/dev/ttyUSB0
+        echo -ne "pwm_033">$serialDevice
       else
         echo "Quiet Level 2 - Fan 20% (Low)";
-        echo -ne "pwm_020">/dev/ttyUSB0
+        echo -ne "pwm_020">$serialDevice
       fi
       ;;
     3)
       if [ $quiet != true ]; then
         echo "Level 3 - Fan 66% (Medium)";
-        echo -ne "pwm_066">/dev/ttyUSB0
+        echo -ne "pwm_066">$serialDevice
       else
         echo "Quiet Level 3 - Fan 50% (Medium)";
-        echo -ne "pwm_050">/dev/ttyUSB0
+        echo -ne "pwm_050">$serialDevice
       fi
       ;;
     *)
       echo "Level4 - Fan 100% (High)";
-      echo -ne "pwm_100">/dev/ttyUSB0
+      echo -ne "pwm_100">$serialDevice
       ;;
     esac
     lastPosition=$curPosition;
