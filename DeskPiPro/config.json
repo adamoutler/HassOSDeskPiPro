@@ -8,7 +8,6 @@
   "full_access": "no",
   "stage": "stable",
   "ingress": true,
-  "auth_api": true,
   "homeassistant_api": true,
   "boot": "auto",
   "devices": ["/dev/ttyUSB0:/dev/ttyUSB0:rw","/dev/ttyUSB1:/dev/ttyUSB1:rw","/dev/ttyUSB2:/dev/ttyUSB2:rw","/dev/ttyUSB3:/dev/ttyUSB3:rw","/dev/ttyUSB4:/dev/ttyUSB4:rw"],
