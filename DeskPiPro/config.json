@@ -1,6 +1,6 @@
 {
   "name": "DeskPi Pro Active Cooling",
-  "version": "0.5",
+  "version": "0.6",
   "slug": "deskpipro",
   "description": "This adjusts the temp of DeskPi Pro by fan control",
   "arch": ["armhf", "armv7", "aarch64"],
@@ -10,7 +10,7 @@
   "ingress": true,
   "homeassistant_api": true,
   "boot": "auto",
-  "devices": ["/dev/ttyUSB0:/dev/ttyUSB0:rw","/dev/ttyUSB1:/dev/ttyUSB1:rw","/dev/ttyUSB2:/dev/ttyUSB2:rw","/dev/ttyUSB3:/dev/ttyUSB3:rw","/dev/ttyUSB4:/dev/ttyUSB4:rw"],
+  "devices": ["/dev/ttyUSB0","/dev/ttyUSB1","/dev/ttyUSB2","/dev/ttyUSB3","/dev/ttyUSB4"],
   "host_network": false,
   "map": ["config", "ssl", "addons", "backup", "share", "media"],
   "options": {
